@@ -42,10 +42,20 @@ def register_form():
 @app.route('/register', methods=["POST"])
 def register_process():
     """Save user information"""
+    new_email = request.form.get("email")
+    new_password = request.form.get("password")
+    new_age = request.form.get("age")
+    new_zipcode = request.form.get("zipcode")
 
-    
+    if User.query.filter(User.email==new_email) is not None:
+    # if User.new_email
+        return redirect("/")
 
-    return redirect("/")
+    else:
+        new_user = User(email=new_email, password=new_password, age=new_age, zipcode=new_zipcode)
+
+        db.session.add(new_user)
+        db.session.commit()
 
 
 if __name__ == "__main__":
@@ -59,5 +69,7 @@ if __name__ == "__main__":
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
+
+    DEBUG_TB_INTERCEPT_REDIRECTS=False
 
     app.run(port=5000, host='0.0.0.0')

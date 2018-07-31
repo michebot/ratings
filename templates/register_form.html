@@ -4,10 +4,14 @@
   <h2>Register page</h2>
   <form action="/register", method="POST">
 
-    Email: <input type="text" name="email">
-    Password: <input type="password" name="password">
+    Email: <input type="text" name="email" required><br><br>
+    Password: <input type="password" name="password" required><br><br>
+    Age: <input type="text" name="age"><br><br>
+    Zipcode: <input type="tex" name="zipcode"><br><br>
+
+    <button type="submit">Register</button>
     
   </form>
-    {% endfor %}
+ 
 
 {% endblock %}
