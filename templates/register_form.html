@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h2>Register page</h2>
+  <form action="/register", method="POST">
+
+    Email: <input type="text" name="email">
+    Password: <input type="password" name="password">
+    
+  </form>
+    {% endfor %}
+
+{% endblock %}
