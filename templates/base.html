@@ -8,14 +8,22 @@
   Ratings
   <hr>
 
-  {% block content %} put your content here {% endblock %}
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+	  <ul>
+	  	{% for message in messages %}
+	  	<li>{{ message }} </li>
+	  	{% endfor %}
+	  </ul>
 
+	  {% endif %}
+	{% endwith %}
 
-  <ul>
-  	{% for message in get_flashed_messages() %}
-  	<li>{{ message }} </li>
-  	{% endfor %}
-  </ul>
+  {% block content %}
+
+  THIS NEVER SHOWS
+  
+  {% endblock %}
 
 </body>
 </html>

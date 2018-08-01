@@ -82,13 +82,19 @@ def validate_login_info():
     user = User.query.filter(User.email==email_inputed).first()
     if not user:
         flash('Please create an account!')
+        print('\n\n\nUSER NEEDS TO CREATE ACCOUNT\n\n\n')
         return redirect('/login')
 
     if user.password != password_inputed:
         flash('Incorrect password!')
+        print('\n\n\nUSER DID NOT ENTER CORRECT PASSWORD\n\n\n')
         return redirect('/login')
 
-    # User.query.filter(User.email==password_inputed).first()
+    session['user_id'] = user.user_id
+    # import pdb; pdb.set_trace()
+    flash('Logged in.')
+    print('\n\n\nUSER LOGGED IN\n\n\n')
+    return redirect('/')
 
 
 if __name__ == "__main__":
