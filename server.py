@@ -46,17 +46,24 @@ def register_process():
     new_password = request.form.get("password")
     new_age = request.form.get("age")
     new_zipcode = request.form.get("zipcode")
+    # if the new_email is already inside of our database, will return True
+    check_email = User.query.filter(User.email==new_email).first()
 
-    if User.query.filter(User.email==new_email) is not None:
+    # if returns above query returns None (i.e. new email/user not in database)
+    if not check_email:
     # if User.new_email
-        return redirect("/")
-
-    else:
-        new_user = User(email=new_email, password=new_password, age=new_age, zipcode=new_zipcode)
+        new_user = User(email=new_email, password=new_password, 
+                        age=int(new_age), zipcode=new_zipcode)
 
         db.session.add(new_user)
         db.session.commit()
 
+        print('\n\n\nUser added!\n\n\n')
+
+        return redirect('/')
+
+    else:
+        return redirect("/")
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
