@@ -1,21 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-  <h2>{{ users.user_id }} Details</h2>
+  <h2>{{ user.user_id }}'s Details</h2>
 
-  <ul>
       User Data:
-      <li>
-          Age: {{ users.age }}
-          Zipcode: {{ users.zipcode }}
-      </li>
+  <ul>
 
-      User's ratings (if any):
       <li>
-        {% if users.ratings %}
-           {% for rating in users.ratings %}
-             {{ ratings.movie.title }}: {{ ratings.score }}
+          Age: {{ user.age }}
+          Zipcode: {{ user.zipcode }}
       </li>
+  </ul>
+      User's ratings (if any):
+  <ul>
+        {% if user.ratings %}
+           {% for rating in user.ratings %}
+            <li>
+             {{ rating.movie.title }}: {{ rating.score }}
+            </li>
           {% endfor %}
         {% endif %}
   </ul>

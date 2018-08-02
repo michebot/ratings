@@ -108,14 +108,15 @@ def log_out():
     return redirect('/')
 
 
-@app.route('/user_details')
-def render_user_details():
+@app.route('/users/<user_id>')
+def render_user_details(user_id):
     """Display user details"""
-    users = User.query.all()
-    ratings = Rating.query.all()
+    user = User.query.get(int(user_id))
 
-    return render_template('/user_info.html', users=users, ratings=ratings)
+    # ratings = Rating.query.filter(Rating.user_id == user_id).first()
 
+    return render_template('/user_info.html', user=user)
+    # return "hello"
 
 @app.route('/movie_list')
 def render_movie_details():
