@@ -58,8 +58,6 @@ def register_process():
         db.session.add(new_user)
         db.session.commit()
 
-        print('\n\n\nUser added!\n\n\n')
-
         return redirect('/')
 
     else:
@@ -83,18 +81,18 @@ def validate_login_info():
     user = User.query.filter(User.email==email_inputed).first()
     if not user:
         flash('Please create an account!')
-        print('\n\n\nUSER NEEDS TO CREATE ACCOUNT\n\n\n')
+
         return redirect('/login')
 
     if user.password != password_inputed:
         flash('Incorrect password!')
-        print('\n\n\nUSER DID NOT ENTER CORRECT PASSWORD\n\n\n')
+  
         return redirect('/login')
 
     session['user_id'] = user.user_id
     # import pdb; pdb.set_trace()
     flash('You are now logged in!')
-    print('\n\n\nUSER LOGGED IN\n\n\n')
+ 
     return redirect('/')
 
 @app.route('/logout', methods=['GET'])
@@ -104,7 +102,7 @@ def log_out():
     del session['user_id'] 
 
     flash('You have been logged out.')
-    print('\n\n\nUSER LOGGED OUT\n\n\n')
+
     return redirect('/')
 
 
@@ -113,18 +111,44 @@ def render_user_details(user_id):
     """Display user details"""
     user = User.query.get(int(user_id))
 
-    # ratings = Rating.query.filter(Rating.user_id == user_id).first()
-
     return render_template('/user_info.html', user=user)
-    # return "hello"
+
 
 @app.route('/movie_list')
-def render_movie_details():
-    """Show movie details"""
+def render_movie_list():
+    """Show movie list"""
 
-    movies = Movie.query.all()
+    movies = Movie.query.order_by("movie_id").all()
 
-    pass
+    return render_template('/movie_list.html', movies=movies)
+
+
+@app.route('/movie/<movie_id>')
+def render_movie_details(movie_id):
+    """Show movie detials."""
+
+    movie = Movie.query.get(int(movie_id))
+
+    rating = Rating.query.filter(Rating.movie_id==movie_id).all()
+
+    return render_template('/movie_info.html', movie=movie, rating=rating)
+
+# @app.route('/movie/<movie_id>', methods=['POST'])
+# def submit_rating(movie_id):
+#     """Allow users to submit/update their rating"""
+
+#     movie = Movie.query.get(int(movie_id))
+#     rating = Rating.query.filter(Rating.movie_id==movie_id,
+#                                  Rating.user_id==user_id).first()
+
+#     # check if user is logged in, can get this from? session email
+#     # can we pass in validate_login_info() to get email and id
+
+#     # Check if a user has already rated this movie. 
+#     if session['user_id']:
+#         if movie.rating:    
+
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
