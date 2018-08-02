@@ -69,6 +69,7 @@ def register_process():
 def display_login():
     """Collect user login information"""
 
+
     return render_template("login_form.html")
 
 
@@ -92,10 +93,37 @@ def validate_login_info():
 
     session['user_id'] = user.user_id
     # import pdb; pdb.set_trace()
-    flash('Logged in.')
+    flash('You are now logged in!')
     print('\n\n\nUSER LOGGED IN\n\n\n')
     return redirect('/')
 
+@app.route('/logout', methods=['GET'])
+def log_out():
+    """Log user out."""
+
+    del session['user_id'] 
+
+    flash('You have been logged out.')
+    print('\n\n\nUSER LOGGED OUT\n\n\n')
+    return redirect('/')
+
+
+@app.route('/user_details')
+def render_user_details():
+    """Display user details"""
+    users = User.query.all()
+    ratings = Rating.query.all()
+
+    return render_template('/user_info.html', users=users, ratings=ratings)
+
+
+@app.route('/movie_list')
+def render_movie_details():
+    """Show movie details"""
+
+    movies = Movie.query.all()
+
+    pass
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
